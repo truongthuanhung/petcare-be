@@ -4,10 +4,15 @@ import {
   IsEnum,
   IsNumber,
   IsBoolean,
+  IsNotEmpty,
 } from 'class-validator';
+import { ObjectId } from 'mongoose';
 import { Gender } from 'src/shared/enums/gender.enum';
 
 export class UpdatePetDto {
+  @IsNotEmpty()
+  _id: ObjectId; 
+
   @IsOptional()
   @IsString()
   name?: string;

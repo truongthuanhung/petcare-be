@@ -1,5 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { HydratedDocument, ObjectId, Types } from 'mongoose';
+import { PostType } from 'src/shared/enums/postType.enum';
 
 export type PostDocument = HydratedDocument<Post>;
 
@@ -12,11 +13,10 @@ export class Post {
   likes: number;
 
   @Prop({
-    type: String,
-    enum: ['Knowledge', 'Moment', 'LostPet'],
+    enum: PostType,
     required: true,
   })
-  type: string;
+  type: PostType;
 
   // Fields for Knowledge type
   @Prop({ type: [String], required: false })

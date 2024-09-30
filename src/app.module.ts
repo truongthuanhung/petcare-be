@@ -3,9 +3,12 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { MongooseModule } from '@nestjs/mongoose';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import { UserModule } from './user/user.module';
-import { PetModule } from './pet/pet.module';
-import { PostModule } from './post/post.module';
+import { AuthModule } from './auth/auth.module';
+import { UserModule } from './modules/user/user.module';
+import { PetModule } from './modules/pet/pet.module';
+import { PostModule } from './modules/post/post.module';
+import { CommentModule } from './modules/comment/comment.module';
+import { JwtModule } from '@nestjs/jwt';
 
 @Module({
   imports: [
@@ -20,6 +23,8 @@ import { PostModule } from './post/post.module';
     }),
     PetModule,
     PostModule,
+    CommentModule,
+    AuthModule,
   ],
   controllers: [AppController],
   providers: [AppService],

@@ -1,9 +1,17 @@
-import { IsEnum, IsOptional, IsString, IsArray, IsUrl } from 'class-validator';
+import {
+  IsEnum,
+  IsNotEmpty,
+  IsOptional,
+  IsString,
+  IsArray,
+  IsUrl,
+} from 'class-validator';
+import { PostType } from 'src/shared/enums/postType.enum';
 
-export class UpdatePostDto {
-  @IsOptional()
-  @IsEnum(['Knowledge', 'Moment', 'LostPet'])
-  type?: string;
+export class CreatePostDto {
+  @IsNotEmpty()
+  @IsEnum(PostType)
+  type: PostType;
 
   // Common fields
   @IsOptional()

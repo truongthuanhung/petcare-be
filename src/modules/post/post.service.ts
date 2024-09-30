@@ -20,16 +20,13 @@ export class PostService {
   async addPost(userId: string, createPostDto: CreatePostDto) {
     const newPost = new this.postModel({
       ...createPostDto,
-      userId,
+      userId: new Types.ObjectId(userId),
     });
     return newPost.save();
   }
 
-  async updatePost(
-    userId: string,
-    postId: string,
-    updatePostDto: UpdatePostDto,
-  ) {
+  async updatePost(userId: string, updatePostDto: UpdatePostDto) {
+    const postId = updatePostDto._id.toString();
     const post = await this.findById(postId);
     if (!post) {
       throw new NotFoundException('Post not found');
@@ -47,8 +44,9 @@ export class PostService {
     return updatedPost;
   }
 
-  async getPosts() {
-    return this.postModel.find();
+  async getPosts(type?: string) {
+    const query = type ? { type } : {};
+    return this.postModel.find(query);
   }
 
   async getPostByUserId(userId: string) {
@@ -66,5 +64,37 @@ export class PostService {
       );
     }
     await this.postModel.findByIdAndDelete(postId);
+  }
+
+  async incrementCommentCount(postId: string) {
+    await this.postModel.findByIdAndUpdate(
+      postId,
+      { $inc: { comments: 1 } },
+      { new: true },
+    );
+  }
+
+  async decrementCommentCount(postId: string) {
+    await this.postModel.findByIdAndUpdate(
+      postId,
+      { $inc: { comments: -1 } },
+      { new: true },
+    );
+  }
+
+  async incrementLikeCount(postId: string) {
+    await this.postModel.findByIdAndUpdate(
+      postId,
+      { $inc: { likes: 1 } },
+      { new: true },
+    );
+  }
+
+  async decrementLikeCount(postId: string) {
+    await this.postModel.findByIdAndUpdate(
+      postId,
+      { $inc: { lieks: -1 } },
+      { new: true },
+    );
   }
 }

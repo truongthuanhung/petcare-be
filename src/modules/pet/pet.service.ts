@@ -26,15 +26,16 @@ export class PetService {
     return this.petModel.find({ userId });
   }
 
-  async addPet(userId: string, petData: CreatePetDto) {
+  async addPet(userId: string, createPetDto: CreatePetDto) {
     const newPet = new this.petModel({
-      ...petData,
-      userId,
+      ...createPetDto,
+      userId: new Types.ObjectId(userId),
     });
     return newPet.save();
   }
 
-  async updatePet(userId: string, petId: string, updatePetDto: UpdatePetDto) {
+  async updatePet(userId: string, updatePetDto: UpdatePetDto) {
+    const petId = updatePetDto._id.toString();
     const pet = await this.findById(petId);
     if (!pet) {
       throw new NotFoundException('Pet not found');

@@ -1,16 +1,14 @@
-import {
-  IsEnum,
-  IsNotEmpty,
-  IsOptional,
-  IsString,
-  IsArray,
-  IsUrl,
-} from 'class-validator';
+import { IsEnum, IsOptional, IsString, IsArray, IsUrl, IsNotEmpty } from 'class-validator';
+import { ObjectId } from 'mongoose';
+import { PostType } from 'src/shared/enums/postType.enum';
 
-export class CreatePostDto {
+export class UpdatePostDto {
   @IsNotEmpty()
-  @IsEnum(['Knowledge', 'Moment', 'LostPet'])
-  type: string;
+  _id: ObjectId;
+
+  @IsOptional()
+  @IsEnum(PostType)
+  type?: PostType;
 
   // Common fields
   @IsOptional()
