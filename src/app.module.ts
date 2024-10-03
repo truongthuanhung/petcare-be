@@ -8,7 +8,8 @@ import { UserModule } from './modules/user/user.module';
 import { PetModule } from './modules/pet/pet.module';
 import { PostModule } from './modules/post/post.module';
 import { CommentModule } from './modules/comment/comment.module';
-import { JwtModule } from '@nestjs/jwt';
+import { LikeModule } from './modules/like/like.module';
+import { ReminderModule } from './modules/reminder/reminder.module';
 
 @Module({
   imports: [
@@ -25,6 +26,8 @@ import { JwtModule } from '@nestjs/jwt';
     PostModule,
     CommentModule,
     AuthModule,
+    LikeModule,
+    ReminderModule,
   ],
   controllers: [AppController],
   providers: [AppService],

@@ -1,6 +1,7 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document, HydratedDocument, ObjectId, Types } from 'mongoose';
 import { Gender } from 'src/shared/enums/gender.enum';
+import { PetType } from 'src/shared/enums/petType.enum';
 
 export type PetDocument = HydratedDocument<Pet>;
 
@@ -9,26 +10,29 @@ export class Pet {
   @Prop({ required: true })
   name: string;
 
-  @Prop({ required: true })
-  age: number;
-
   @Prop({ enum: Gender, required: true })
   gender: Gender;
 
-  @Prop()
-  avatar?: string;
+  @Prop({ enum: PetType, required: true })
+  type: PetType;
 
-  @Prop({ required: true })
-  height: number;
+  @Prop({ default: null })
+  avatar: string;
 
-  @Prop({ required: true })
+  @Prop({ default: 0 })
   weight: number;
 
   @Prop({ default: false })
   isNeutered: boolean;
 
+  @Prop({ default: null })
+  breed: string;
+
   @Prop({ type: Types.ObjectId, ref: 'User', required: true })
   userId: ObjectId;
+
+  @Prop({ type: Date, required: true })
+  birthday: Date;
 }
 
 export const PetSchema = SchemaFactory.createForClass(Pet);

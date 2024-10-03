@@ -16,14 +16,17 @@ export class CommentService {
     return this.commentModel.findOne({ _id: new Types.ObjectId(_id) });
   }
 
+  async deleteCommentByPostId(postId: string) {
+    return this.commentModel.deleteMany({ postId: new Types.ObjectId(postId) });
+  }
+
   async addComment(userId: string, createCommentDto: CreateCommentDto) {
     const newComment = new this.commentModel({
       ...createCommentDto,
       postId: new Types.ObjectId(createCommentDto.postId),
       userId: new Types.ObjectId(userId),
     });
-    const [result] = await Promise.all([newComment.save()]);
-    return result;
+    return newComment.save();
   }
 
   async deleteComment(userId: string, commentId: string) {

@@ -3,8 +3,6 @@ import {
   Body,
   Controller,
   Get,
-  InternalServerErrorException,
-  NotFoundException,
   Patch,
   Post,
   Request,
@@ -14,6 +12,7 @@ import { UserService } from './user.service';
 import { CreateUserDto } from './dtos/create-user.dto';
 import { UpdateUserDto } from './dtos/update-user.dto';
 import { JwtAuthGuard } from 'src/auth/guards/jwt.guard';
+import { USER_MESSAGES } from 'src/shared/constants/messages';
 
 @Controller('users')
 export class UserController {
@@ -21,45 +20,33 @@ export class UserController {
 
   @Post()
   async createUser(@Body() createUserDto: CreateUserDto) {
-    try {
-      const result = await this.userService.create(createUserDto);
-      return {
-        message: 'Create user success',
-        result,
-      };
-    } catch (error) {
-      throw error;
-    }
+    const result = await this.userService.create(createUserDto);
+    return {
+      message: USER_MESSAGES.CREATE_USER_SUCCESSFULLY,
+      result,
+    };
   }
 
   @UseGuards(JwtAuthGuard)
   @Get('/me')
   async getMe(@Request() req) {
-    try {
-      const result = await this.userService.findById(req.user.userId);
-      return {
-        result,
-      };
-    } catch (error) {
-      throw new InternalServerErrorException('Failed to get users');
-    }
+    const result = await this.userService.findById(req.user.userId);
+    return {
+      result,
+    };
   }
 
   @UseGuards(JwtAuthGuard)
   @Patch('/me')
   async updateUser(@Request() req, @Body() updateUserDto: UpdateUserDto) {
-    try {
-      await this.userService.validateUserExists(req.user.userId as string);
-      const result = await this.userService.updateUser(
-        req.user.userId,
-        updateUserDto,
-      );
-      return {
-        message: 'Update me success',
-        result,
-      };
-    } catch (error) {
-      throw error;
-    }
+    await this.userService.validateUserExists(req.user.userId as string);
+    const result = await this.userService.updateUser(
+      req.user.userId,
+      updateUserDto,
+    );
+    return {
+      message: USER_MESSAGES.UPDATE_ME_SUCCESSFULLY,
+      result,
+    };
   }
 }

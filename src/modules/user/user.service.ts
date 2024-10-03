@@ -15,7 +15,9 @@ export class UserService {
   constructor(@InjectModel('User') private userModel: Model<User>) {}
 
   async findById(_id: string) {
-    return this.userModel.findOne({ _id: new Types.ObjectId(_id) });
+    return this.userModel
+      .findOne({ _id: new Types.ObjectId(_id) })
+      .select('-password -createdAt -updatedAt -__v');
   }
 
   async findByEmail(email: string) {
@@ -40,16 +42,13 @@ export class UserService {
   }
 
   async updateUser(userId: string, updateUserDto: UpdateUserDto) {
-    const { email } = updateUserDto;
-    const existingUser = await this.findByEmail(email);
-    if (existingUser && existingUser._id.toString() !== userId) {
-      throw new ConflictException('Email already in use');
-    }
-    const updatedUser = await this.userModel.findByIdAndUpdate(
-      new Types.ObjectId(userId),
-      { $set: updateUserDto },
-      { new: true },
-    );
+    const updatedUser = await this.userModel
+      .findByIdAndUpdate(
+        new Types.ObjectId(userId),
+        { $set: updateUserDto },
+        { new: true },
+      )
+      .select('-password -createdAt -updatedAt -__v');
 
     if (!updatedUser) {
       throw new NotFoundException('User not found');

@@ -1,3 +1,4 @@
+import { Type } from 'class-transformer';
 import {
   IsString,
   IsNumber,
@@ -5,8 +6,10 @@ import {
   IsOptional,
   IsEnum,
   IsNotEmpty,
+  IsDate,
 } from 'class-validator';
 import { Gender } from 'src/shared/enums/gender.enum';
+import { PetType } from 'src/shared/enums/petType.enum';
 
 export class CreatePetDto {
   @IsString()
@@ -15,19 +18,28 @@ export class CreatePetDto {
   @IsNumber()
   age: number;
 
-  @IsEnum(Gender, { message: 'Gender must be either male, female, or other.' })
+  @IsEnum(Gender, { message: 'Gender must be either male or female.' })
   @IsNotEmpty()
-  readonly gender: Gender;
+  gender: Gender;
+
+  @IsEnum(PetType, { message: 'Pet type must be either cat or dog' })
+  @IsNotEmpty()
+  type: PetType;
+
+  @IsNotEmpty()
+  @Type(() => Date)
+  @IsDate()
+  birthday: Date;
 
   @IsOptional()
   @IsString()
-  readonly avatar?: string;
-
-  @IsNumber()
-  height: number;
+  avatar?: string;
 
   @IsNumber()
   weight: number;
+
+  @IsString()
+  breed: string;
 
   @IsBoolean()
   isNeutered: boolean;

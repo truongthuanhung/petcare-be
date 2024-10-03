@@ -1,8 +1,9 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
-  NotFoundException,
+  Param,
   Patch,
   Post,
   Request,
@@ -10,64 +11,50 @@ import {
 } from '@nestjs/common';
 import { PetService } from './pet.service';
 import { JwtAuthGuard } from 'src/auth/guards/jwt.guard';
-import { UserService } from '../user/user.service';
 import { CreatePetDto } from './dtos/create-pet.dto';
 import { UpdatePetDto } from './dtos/update-pet.dto';
+import { USER_MESSAGES } from 'src/shared/constants/messages';
 
 @Controller('pets')
 export class PetController {
-  constructor(
-    private readonly petService: PetService,
-    private readonly userService: UserService,
-  ) {}
+  constructor(private readonly petService: PetService) {}
 
   @UseGuards(JwtAuthGuard)
   @Get()
   async getPets(@Request() req) {
-    try {
-      await this.userService.validateUserExists(req.user.userId as string);
-      const result = await this.petService.getPetsByUserId(req.user.userId);
-      return {
-        result,
-      };
-    } catch (error) {
-      throw error;
-    }
+    return this.petService.getPetsByUserId(req.user.userId as string);
   }
 
   @UseGuards(JwtAuthGuard)
   @Post()
   async addPet(@Request() req, @Body() createPetDto: CreatePetDto) {
-    try {
-      await this.userService.validateUserExists(req.user.userId as string);
-      const result = await this.petService.addPet(
-        req.user.userId,
-        createPetDto,
-      );
-      return {
-        message: 'Add new pet success',
-        result,
-      };
-    } catch (error) {
-      throw error;
-    }
+    const result = await this.petService.addPet(req.user.userId, createPetDto);
+    return {
+      message: USER_MESSAGES.ADD_NEW_PET_SUCCESSFULLY,
+      result,
+    };
   }
 
   @UseGuards(JwtAuthGuard)
   @Patch()
   async updatePet(@Request() req, @Body() updatePetDto: UpdatePetDto) {
-    try {
-      await this.userService.validateUserExists(req.user.userId as string);
-      const result = await this.petService.updatePet(
-        req.user.userId,
-        updatePetDto,
-      );
-      return {
-        message: 'Update pet success',
-        result,
-      };
-    } catch (error) {
-      throw error;
-    }
+    const result = await this.petService.updatePet(
+      req.user.userId,
+      updatePetDto,
+    );
+    return {
+      message: USER_MESSAGES.UPDATE_PET_SUCCESSFULLY,
+      result,
+    };
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Delete(':petId')
+  async deletePet(@Request() req, @Param('petId') petId: string) {
+    const userId = req.user.userId as string;
+    await this.petService.deletePet(userId, petId);
+    return {
+      message: USER_MESSAGES.DELETE_PET_SUCCESSFULLY,
+    };
   }
 }

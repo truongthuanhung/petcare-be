@@ -8,10 +8,11 @@ import {
 } from 'class-validator';
 import { ObjectId } from 'mongoose';
 import { Gender } from 'src/shared/enums/gender.enum';
+import { PetType } from 'src/shared/enums/petType.enum';
 
 export class UpdatePetDto {
   @IsNotEmpty()
-  _id: ObjectId; 
+  _id: ObjectId;
 
   @IsOptional()
   @IsString()
@@ -26,12 +27,12 @@ export class UpdatePetDto {
   gender?: Gender;
 
   @IsOptional()
-  @IsString()
-  avatar?: string;
+  @IsEnum(PetType)
+  type?: PetType;
 
   @IsOptional()
-  @IsNumber()
-  height?: number;
+  @IsString()
+  avatar?: string;
 
   @IsOptional()
   @IsNumber()
@@ -40,4 +41,8 @@ export class UpdatePetDto {
   @IsOptional()
   @IsBoolean()
   isNeutered?: boolean;
+
+  @IsOptional()
+  @IsString()
+  breed?: string;
 }
