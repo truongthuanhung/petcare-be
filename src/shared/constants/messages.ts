@@ -11,6 +11,12 @@ export const USER_MESSAGES = {
   DELETE_COMMMENT_SUCCESSFULLY: 'Delete comment successfully',
   LIKE_POST_SUCCESSFULLY: 'Like post successfully',
   UNLIKE_POST_SUCCESSFULLY: 'Unlike post successfully',
+  CREATE_REMINDER_SUCCESSFULLY: 'Create reminder successfully',
+  UPDATE_REMINDER_SUCCESSFULLY: 'Update reminder successfully',
+  DELETE_REMINDER_SUCCESSFULLY: 'Delete reminder successfully',
+  CREATE_RECORD_SUCCESSFULLY: 'Create record successfully',
+  UPDATE_RECORD_SUCCESSFULLY: 'Update record successfully',
+  DELETE_RECORD_SUCCESSFULLY: 'Delete record successfully',
 };
 
 export const ERROR_MESSAGES = {
@@ -20,4 +26,10 @@ export const ERROR_MESSAGES = {
   NO_PERMISSION_POST: 'You do not have permission on this post',
   COMMENT_NOT_FOUND: 'Comment not found',
   NO_PERMISSION_COMMENT: 'You do not have permission on this comment',
+  REMINDER_NOT_FOUND: 'Reminder not found',
+  NO_PERMISSION_REMINDER: 'You do not have permission on this reminder',
+  RECORD_NOT_FOUND: 'Record not found',
+  NO_PERMISSION_RECORD: 'You do not have permission on this record',
+  PAYMENT_NOT_FOUND: 'Payment not found',
+  NO_PERMISSION_PAYMENT: 'You do not have permission on this payment',
 };

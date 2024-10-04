@@ -10,6 +10,8 @@ import { PostModule } from './modules/post/post.module';
 import { CommentModule } from './modules/comment/comment.module';
 import { LikeModule } from './modules/like/like.module';
 import { ReminderModule } from './modules/reminder/reminder.module';
+import { RecordModule } from './modules/record/record.module';
+import { PaymentModule } from './modules/payment/payment.module';
 
 @Module({
   imports: [
@@ -28,6 +30,8 @@ import { ReminderModule } from './modules/reminder/reminder.module';
     AuthModule,
     LikeModule,
     ReminderModule,
+    RecordModule,
+    PaymentModule,
   ],
   controllers: [AppController],
   providers: [AppService],

@@ -10,6 +10,7 @@ import { CreateReminderDto } from './dtos/create-reminder.dto';
 import { UserService } from '../user/user.service';
 import { PetService } from '../pet/pet.service';
 import { UpdateReminderDto } from './dtos/update-reminder.dto';
+import { ERROR_MESSAGES } from 'src/shared/constants/messages';
 
 @Injectable()
 export class ReminderService {
@@ -26,7 +27,7 @@ export class ReminderService {
   async validateReminderExists(reminderId: string) {
     const reminder = await this.findById(reminderId);
     if (!reminder) {
-      throw new NotFoundException('Reminder not found');
+      throw new NotFoundException(ERROR_MESSAGES.REMINDER_NOT_FOUND);
     }
     return reminder;
   }
@@ -38,7 +39,7 @@ export class ReminderService {
     ]);
     const permission = pet.userId.toString() === userId;
     if (!permission) {
-      throw new ForbiddenException('You do not have permission on this pet');
+      throw new ForbiddenException(ERROR_MESSAGES.NO_PERMISSION_PET);
     }
     return;
   }
@@ -50,9 +51,7 @@ export class ReminderService {
     ]);
     const permission = reminder.userId.toString() === userId;
     if (!permission) {
-      throw new ForbiddenException(
-        'You do not have permission on this reminder',
-      );
+      throw new ForbiddenException(ERROR_MESSAGES.NO_PERMISSION_REMINDER);
     }
     return;
   }
@@ -80,6 +79,9 @@ export class ReminderService {
       { $set: updateReminderDto },
       { new: true },
     );
+    if (!updatedReminder) {
+      throw new NotFoundException(ERROR_MESSAGES.REMINDER_NOT_FOUND);
+    }
     return updatedReminder;
   }
 

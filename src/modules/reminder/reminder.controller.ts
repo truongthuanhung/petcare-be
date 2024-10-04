@@ -13,6 +13,7 @@ import { ReminderService } from './reminder.service';
 import { JwtAuthGuard } from 'src/auth/guards/jwt.guard';
 import { CreateReminderDto } from './dtos/create-reminder.dto';
 import { UpdateReminderDto } from './dtos/update-reminder.dto';
+import { USER_MESSAGES } from 'src/shared/constants/messages';
 
 @Controller('reminders')
 export class ReminderController {
@@ -37,7 +38,7 @@ export class ReminderController {
       createReminderDto,
     );
     return {
-      message: 'Create reminder successfully',
+      message: USER_MESSAGES.CREATE_REMINDER_SUCCESSFULLY,
       result,
     };
   }
@@ -54,7 +55,7 @@ export class ReminderController {
       updateReminderDto,
     );
     return {
-      message: 'Update reminder successfully',
+      message: USER_MESSAGES.UPDATE_REMINDER_SUCCESSFULLY,
       result,
     };
   }
@@ -68,7 +69,7 @@ export class ReminderController {
     const userId = req.user.userId as string;
     await this.reminderService.deleteReminder(userId, reminderId);
     return {
-      message: 'Delete reminder successfully',
+      message: USER_MESSAGES.DELETE_REMINDER_SUCCESSFULLY,
     };
   }
 }
