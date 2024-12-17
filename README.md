@@ -26,6 +26,10 @@
 
 [Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
 
+## Swagger Documentation
+Access the API documentation via Swagger:
+https://petcare-be-an3a.onrender.com/api
+
 ## Project setup
 
 ```bash
